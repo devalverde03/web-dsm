@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSM Security | CCTV y Redes en Costa Rica</title>
+    <style>
+        /* --- COLORES DE DSM SECURITY --- */
+        :root {
+            --primary: #0A2351; /* Azul Oscuro */
+            --accent: #00C2FF;  /* Cian Brillante */
+            --light: #F0F8FF;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--primary);
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+
+        /* --- PANTALLA DE CARGA (LOADER) LIMPIA --- */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--white); /* Fondo blanco puro para evitar bordes raros */
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .loader-logo {
+            width: auto;
+            max-width: 80%; /* Un poco más pequeño para que no invada toda la pantalla */
+            height: auto;
+            margin-bottom: 20px;
+            border: none !important;  /* Forza a quitar bordes negros */
+            outline: none !important; /* Quita delineados de selección */
+            display: block;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--white);
+            padding: 10px 5%;
+            box-shadow: 0 2px 15px rgba(10, 35, 81, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 90px;
+            width: auto;
+            display: block;
+            transition: transform 0.3s;
+        }
+        .logo img:hover { transform: scale(1.05); }
+
+        .btn-cta {
+            background: var(--primary);
+            color: var(--accent);
+            padding: 10px 25px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            border: 2px solid var(--primary);
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+            display: block;
+        }
+
+        .btn-cta:hover { 
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #004e92 100%);
+            color: white;
+            padding: 100px 5% 80px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 20px; font-weight: 800; }
+        .hero span { color: var(--accent); }
+        .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px auto; opacity: 0.95; }
+        
+        .hero .btn-cta {
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+        }
+
+        /* SERVICIOS INTERACTIVOS */
+        .services {
+            padding: 80px 5%;
+            background: var(--light);
+            text-align: center;
+        }
+        .services h2 { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; }
+        .sub-title { margin-bottom: 50px; font-size: 1.1rem; opacity: 0.8; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            align-items: start;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(10, 35, 81, 0.08);
+            transition: all 0.3s;
+            border-top: 4px solid var(--accent);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .card:hover { transform: translateY(-5px); }
+
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            background: linear-gradient(to bottom right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-summary { margin-bottom: 15px; font-weight: 600; }
+        
+        .details {
+            display: none;
+            text-align: left;
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            animation: slideDown 0.4s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .details ul { list-style: none; padding: 0; margin: 0; }
+        .details li {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            padding-left: 20px;
+            position: relative;
+        }
+        .details li::before {
+            content: '•';
+            color: var(--accent);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .click-hint {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 15px;
+            display: block;
+            font-style: italic;
+        }
+        .arrow { color: var(--accent); font-weight: bold; }
+
+        /* FOOTER */
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 40px 5%;
+            margin-top: 50px;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .footer-contact {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .footer-icon {
+            width: 24px;
+            height: 24px;
+            display: block;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .logo img { height: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader-wrapper">
+        <div class="loader-content">
+            <img src="robot_loader.gif" alt="Cargando..." class="loader-logo">
+            <p style="margin-top: 10px; font-weight: 600; color: #0A2351;">Iniciando...</p>
+        </div>
+    </div>
+
+    <header>
+        <a href="#" class="logo"><img src="logo.png" alt="DSM Security Logo"></a>
+        <a href="https://wa.me/50662376914" class="btn-cta">
+            <img src="whatsapp.png" alt="WhatsApp" class="btn-icon">
+            Cotizar
+        </a>
+    </header>
+
+    <section class="hero">
+        <h1>Tecnología que protege,<br><span>soluciones que conectan.</span></h1>
+        <p>Especialistas en CCTV, Redes Wi-Fi y Soporte IT. <br>Hacemos lo difícil para que tú lo veas fácil.</p>
+        <a href="https://wa.me/50662376914?text=Hola,%20me%20interesa%20una%20visita%20técnica." class="btn-cta">
+            <img src="whatsapp.png" alt="WhatsApp" class="btn-icon">
+            Agendar Visita
+        </a>
+    </section>
+
+    <section class="services">
+        <h2>¿En qué te podemos ayudar?</h2>
+        <p class="sub-title">Toca cada tarjeta para ver el detalle de lo que hacemos 👇</p>
+        
+        <div class="grid">
+            
+            <div class="card" onclick="toggleDetails('detail-cctv', 'arrow-cctv')">
+                <span class="icon">📹</span>
+                <h3>CCTV & Videovigilancia</h3>
+                <p class="card-summary">Protege tu casa o negocio y mira todo desde el celular.</p>
+                <div id="detail-cctv" class="details">
+                    <ul>
+                        <li><strong>Instalación Completa:</strong> Montaje de cámaras en lugares estratégicos (puntos ciegos).</li>
+                        <li><strong>Configuración en Celular:</strong> Te enseñamos a ver las cámaras en tu Android o iPhone.</li>
+                        <li><strong>Diagnóstico y Reparación:</strong> ¿Dejaron de verse? Revisamos el problema.</li>
+                        <li><strong>Cableado Estético:</strong> Ocultamos cables y ordenamos el grabador (DVR) para que se vea limpio.</li>
+                        <li><strong>Recuperación de Claves:</strong> Si olvidaste la contraseña de tu equipo viejo.</li>
+                    </ul>
+                </div>
+                <span class="click-hint">Clic para ver más <span id="arrow-cctv" class="arrow">▼</span></span>
+            </div>
+
+            <div class="card" onclick="toggleDetails('detail-wifi', 'arrow-wifi')">
+                <span class="icon">📡</span>
+                <h3>Wi-Fi & Internet</h3>
+                <p class="card-summary">Solucionamos el "Internet Lento" y las zonas sin señal.</p>
+                <div id="detail-wifi" class="details">
+                    <ul>
+                        <li><strong>Mapa de Calor:</strong> Identificamos por qué no llega el Wi-Fi al segundo piso o al patio.</li>
+                        <li><strong>Sistemas Mesh (Malla):</strong> Instalamos equipos modernos que cubren toda la casa sin cortar la señal.</li>
+                        <li><strong>Cableado de Red:</strong> Llevamos cable directo a tu TV, Consola o PC para máxima velocidad.</li>
+                        <li><strong>Red de Invitados:</strong> Creamos una clave aparte para visitas (protege tus datos).</li>
+                    </ul>
+                </div>
+                <span class="click-hint">Clic para ver más <span id="arrow-wifi" class="arrow">▼</span></span>
+            </div>
+
+            <div class="card" onclick="toggleDetails('detail-it', 'arrow-it')">
+                <span class="icon">🛠️</span>
+                <h3>Soporte Técnico & Racks</h3>
+                <p class="card-summary">Tu departamento de sistemas personal.</p>
+                <div id="detail-it" class="details">
+                    <ul>
+                        <li><strong>Limpieza de Racks:</strong> Ordenamos esa maraña de cables en tu negocio.</li>
+                        <li><strong>Mantenimiento PC:</strong> Limpieza física y de virus para computadoras lentas.</li>
+                        <li><strong>Configuración de Equipos:</strong> Impresoras, Routers, Repetidores.</li>
+                        <li><strong>Asesoría de Compra:</strong> Te decimos qué comprar para que no gastes de más.</li>
+                    </ul>
+                </div>
+                <span class="click-hint">Clic para ver más <span id="arrow-it" class="arrow">▼</span></span>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2024 DSM Security - Costa Rica</p>
+        <div class="footer-contact">
+            <img src="whatsapp.png" alt="WhatsApp" class="footer-icon">
+            <a href="https://wa.me/50662376914">6237-6914</a>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('load', function () {
+            const loader = document.getElementById('loader-wrapper');
+            loader.style.opacity = '0';
+            setTimeout(function(){ loader.style.display = 'none'; }, 500);
+        });
+
+        function toggleDetails(id, arrowId) {
+            var content = document.getElementById(id);
+            var arrow = document.getElementById(arrowId);
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                arrow.innerHTML = "▼";
+            } else {
+                content.style.display = "block";
+                arrow.innerHTML = "▲";
+            }
+        }
+    </script>
+    
+
+</body>
+</html>
