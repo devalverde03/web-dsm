@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Cotización | DSM Security</title>
+    <style>
+        /* --- ESTILOS DE DSM SECURITY (Mismos que la Home) --- */
+        :root {
+            --primary: #0A2351;
+            --accent: #00C2FF;
+            --light: #F0F8FF;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--primary);
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+
+        /* HEADER SIMPLE */
+        header {
+            background: var(--white);
+            padding: 10px 5%;
+            box-shadow: 0 2px 15px rgba(10, 35, 81, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo img { height: 70px; width: auto; display: block; }
+        
+        /* Botón de volver */
+        .btn-back {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-back:hover { color: var(--accent); }
+
+        /* FORMULARIO CONTAINER */
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(10, 35, 81, 0.1);
+            border-top: 4px solid var(--accent);
+        }
+
+        h1 { text-align: center; color: var(--primary); margin-bottom: 10px; }
+        p.subtitle { text-align: center; margin-bottom: 30px; color: #666; font-size: 0.95rem; }
+
+        /* ESTILOS DE LOS INPUTS */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            box-sizing: border-box; /* Importante para que no se salga */
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 194, 255, 0.1);
+        }
+
+        /* BOTÓN DE ENVIAR */
+        .btn-submit {
+            width: 100%;
+            background: var(--primary);
+            color: var(--accent);
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+        }
+        .btn-submit:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 194, 255, 0.3);
+        }
+        .btn-icon { width: 24px; height: 24px; }
+
+        /* CHECKBOX PERSONALIZADO */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        input[type="checkbox"] { width: auto; }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .form-container { margin: 20px; padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo"><img src="logo.png" alt="DSM Security"></a>
+        <a href="index.html" class="btn-back">← Volver al Inicio</a>
+    </header>
+
+    <div class="form-container">
+        <h1>Solicitar Cotización</h1>
+        <p class="subtitle">Completa estos datos para que un técnico analice tu caso antes de contactarte.</p>
+
+        <form id="quoteForm" onsubmit="enviarWhatsApp(event)">
+            
+            <div class="form-group">
+                <label for="nombre">Tu Nombre:</label>
+                <input type="text" id="nombre" placeholder="Ej: Juan Pérez" required>
+            </div>
+
+            <div class="form-group">
+                <label for="ubicacion">Ubicación (Cantón/Distrito):</label>
+                <input type="text" id="ubicacion" placeholder="Ej: Escazú, San Pedro..." required>
+            </div>
+
+            <div class="form-group">
+                <label for="servicio">¿Qué servicio te interesa?</label>
+                <select id="servicio" required>
+                    <option value="" disabled selected>Selecciona una opción...</option>
+                    <option value="Cámaras de Seguridad (CCTV)">Cámaras de Seguridad (CCTV)</option>
+                    <option value="Mejorar Señal Wi-Fi">Mejorar Señal Wi-Fi / Internet</option>
+                    <option value="Cableado y Racks">Cableado Estructurado / Racks</option>
+                    <option value="Soporte Técnico">Soporte Técnico / Otro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mensaje">Detalles adicionales (Opcional):</label>
+                <textarea id="mensaje" rows="4" placeholder="Ej: Necesito 4 cámaras para mi casa... / Mi internet no llega al cuarto..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <img src="whatsapp.png" alt="WA" class="btn-icon">
+                Confirmar Solicitud
+            </button>
+            
+            <p style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 15px;">
+                Al confirmar, se abrirá tu WhatsApp con la información lista para enviar.
+            </p>
+        </form>
+    </div>
+
+    <script>
+        function enviarWhatsApp(e) {
+            e.preventDefault(); // Evita que la página se recargue
+
+            // 1. Capturar los datos
+            const nombre = document.getElementById('nombre').value;
+            const ubicacion = document.getElementById('ubicacion').value;
+            const servicio = document.getElementById('servicio').value;
+            const mensaje = document.getElementById('mensaje').value;
+            
+            // TU NÚMERO DE TELÉFONO (Sin el +)
+            const telefono = "50662376914"; 
+
+            // 2. Construir el mensaje
+            let texto = `Hola DSM Security, mi nombre es *${nombre}*.\n`;
+            texto += `📍 Ubicación: ${ubicacion}\n`;
+            texto += `🛠️ Me interesa cotizar: *${servicio}*.\n`;
+            
+            if(mensaje) {
+                texto += `📝 Detalles: ${mensaje}`;
+            }
+
+            // 3. Codificar para URL (Convierte espacios en %20, etc.)
+            const url = `https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`;
+
+            // 4. Abrir WhatsApp
+            window.open(url, '_blank');
+        }
+    </script>
+
+</body>
+</html>
