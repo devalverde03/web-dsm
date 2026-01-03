@@ -29,7 +29,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--white); /* Fondo blanco puro para evitar bordes raros */
+            background-color: var(--white);
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -40,11 +40,11 @@
         
         .loader-logo {
             width: auto;
-            max-width: 80%; /* Un poco más pequeño para que no invada toda la pantalla */
+            max-width: 80%;
             height: auto;
             margin-bottom: 20px;
-            border: none !important;  /* Forza a quitar bordes negros */
-            outline: none !important; /* Quita delineados de selección */
+            border: none !important;
+            outline: none !important;
             display: block;
         }
 
@@ -68,6 +68,7 @@
         }
         .logo img:hover { transform: scale(1.05); }
 
+        /* ESTILOS DE BOTONES */
         .btn-cta {
             background: var(--primary);
             color: var(--accent);
@@ -111,12 +112,17 @@
         .hero span { color: var(--accent); }
         .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px auto; opacity: 0.95; }
         
+        /* Botón específico de la portada (Cyan) */
         .hero .btn-cta {
             background: var(--accent);
             color: var(--primary);
             border: none;
             padding: 15px 40px;
             font-size: 1.1rem;
+        }
+        .hero .btn-cta:hover {
+            background: var(--white);
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
         }
 
         /* SERVICIOS INTERACTIVOS */
@@ -231,19 +237,18 @@
 
     <div id="loader-wrapper">
         <div class="loader-content">
-            <img src="robot_loader.gif" alt="Cargando..." class="loader-logo">
+            <img src="Robot_Con_Animación_De_Carga.gif" alt="Cargando..." class="loader-logo">
             <p style="margin-top: 10px; font-weight: 600; color: #0A2351;">Iniciando...</p>
         </div>
     </div>
 
     <header>
-        <a href="#" class="logo"><img src="logo.png" alt="DSM Security Logo"></a>
+        <a href="#" class="logo">
+            <img src="logo.png" alt="DSM Security Logo">
+        </a>
+        
         <a href="cotizar.html" class="btn-cta">
-    <img src="whatsapp.png" alt="WhatsApp" class="btn-icon">
-    Cotizar
-</a>
-    
-            <img src="whatsapp.png" alt="WhatsApp" class="btn-icon">
+            <img src="whatsapp logo.png" alt="WhatsApp" class="btn-icon">
             Cotizar
         </a>
     </header>
@@ -251,11 +256,9 @@
     <section class="hero">
         <h1>Tecnología que protege,<br><span>soluciones que conectan.</span></h1>
         <p>Especialistas en CCTV, Redes Wi-Fi y Soporte IT. <br>Hacemos lo difícil para que tú lo veas fácil.</p>
+        
         <a href="cotizar.html" class="btn-cta">
-    <img src="whatsapp.png" alt="WhatsApp" class="btn-icon">
-    Agendar Visita
-</a>
-            <img src="whatsapp.png" alt="WhatsApp" class="btn-icon">
+            <img src="whatsapp logo.png" alt="WhatsApp" class="btn-icon">
             Agendar Visita
         </a>
     </section>
@@ -316,9 +319,9 @@
     </section>
 
     <footer>
-        <p>© 2026 DSM Security - Costa Rica</p>
+        <p>© 2024 DSM Security - Costa Rica</p>
         <div class="footer-contact">
-            <img src="whatsapp.png" alt="WhatsApp" class="footer-icon">
+            <img src="whatsapp logo.png" alt="WhatsApp" class="footer-icon">
             <a href="https://wa.me/50662376914">6237-6914</a>
         </div>
     </footer>
@@ -326,8 +329,11 @@
     <script>
         window.addEventListener('load', function () {
             const loader = document.getElementById('loader-wrapper');
-            loader.style.opacity = '0';
-            setTimeout(function(){ loader.style.display = 'none'; }, 500);
+            // MODO LENTO ACTIVADO: Tarda 3 segundos en desaparecer para que veas el loader
+            setTimeout(function(){ 
+                loader.style.opacity = '0';
+                setTimeout(function(){ loader.style.display = 'none'; }, 500);
+            }, 3000); 
         });
 
         function toggleDetails(id, arrowId) {
@@ -342,9 +348,7 @@
             }
         }
     </script>
-    
 
 </body>
-
 </html>
 
